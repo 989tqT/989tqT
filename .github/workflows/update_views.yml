@@ -1,0 +1,87 @@
+on:
+  schedule:
+    - cron: '0 17 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-views:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository (branch me)
+        uses: actions/checkout@v4
+        with:
+          ref: me
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch and Update Views count
+        run: python scripts/update_views.py
+
+      - name: Minify SVG
+        run: |
+          python -c "
+          import re
+          def minify_css(css_str):
+              css_str = re.sub(r'/\*.*?\*/', '', css_str, flags=re.DOTALL)
+              css_str = css_str.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+              css_str = re.sub(r'\s+', ' ', css_str)
+              css_str = re.sub(r'\s*([\{\}:;,])\s*', r'\1', css_str)
+              return css_str.strip()
+          
+          def compress_path_d(d_str):
+              d_str = d_str.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+              d_str = re.sub(r'\s*,\s*', ',', d_str)
+              d_str = re.sub(r'([MmLlHhVvCcSsQqTtAaZz])\s+', r'\1', d_str)
+              d_str = re.sub(r'\s+([MmLlHhVvCcSsQqTtAaZz])', r'\1', d_str)
+              d_str = re.sub(r'\s+', ',', d_str)
+              return d_str.strip()
+
+          with open('src/b_1.svg', 'r', encoding='utf-8') as f:
+              content = f.read()
+
+          content = re.sub(r'<style\b[^>]*>(.*?)</style>', lambda m: f'<style>{minify_css(m.group(1))}</style>', content, flags=re.DOTALL)
+          content = re.sub(r'd=\"([^\"]+)\"', lambda m: f'd=\"{compress_path_d(m.group(1))}\"', content)
+
+          with open('src/b_1.svg', 'w', encoding='utf-8') as f:
+              f.write(content)
+          "
+
+      - name: Check changes and prepare counter
+        id: prep
+        run: |
+          if git diff --quiet src/b_1.svg; then
+            echo "SVG unchanged, skipping commit."
+            echo "should_commit=false" >> $GITHUB_ENV
+          else
+            COUNTER_FILE=.github/counter.txt
+            mkdir -p .github
+            if [ ! -f $COUNTER_FILE ]; then
+              echo "0" > $COUNTER_FILE
+            fi
+            COUNTER=$(cat $COUNTER_FILE)
+            NEXT=$(( (COUNTER % 9999) + 1 ))
+            FORMATTED=$(printf "%04d" $NEXT)
+            echo $NEXT > $COUNTER_FILE
+            echo "counter=$FORMATTED" >> $GITHUB_ENV
+            echo "should_commit=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit and Push changes
+        if: env.should_commit == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/b_1.svg .github/counter.txt
+          git commit -m "update visitor counter [skip ci] [${{ env.counter }}]"
+          git fetch origin me
+          git rebase origin/me
+          git push origin me
+
+      - name: No changes
+        if: env.should_commit != 'true'
+        run: echo "Nothing to commit."
