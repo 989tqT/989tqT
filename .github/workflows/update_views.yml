@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '0 17 * * *'
+    - cron: '15 15 * * *'
   workflow_dispatch:
 
 jobs:
@@ -9,7 +9,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout Repository (branch me)
+      - name: Checkout repository (branch me)
         uses: actions/checkout@v4
         with:
           ref: me
@@ -19,8 +19,32 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Fetch and Update Views count
+      - name: Read current count from SVG
+        id: before
+        run: |
+          BEFORE=$(python -c "
+          import re
+          with open('src/b_1.svg', 'r', encoding='utf-8') as f:
+              content = f.read()
+          m = re.search(r'id=\"visitorCount\">([^<]*)</tspan>', content)
+          print(m.group(1).strip() if m else '0')
+          ")
+          echo "count_before=$BEFORE" >> $GITHUB_ENV
+
+      - name: Fetch and update visitor count
         run: python scripts/update_views.py
+
+      - name: Read new count from SVG
+        id: after
+        run: |
+          AFTER=$(python -c "
+          import re
+          with open('src/b_1.svg', 'r', encoding='utf-8') as f:
+              content = f.read()
+          m = re.search(r'id=\"visitorCount\">([^<]*)</tspan>', content)
+          print(m.group(1).strip() if m else '0')
+          ")
+          echo "count_after=$AFTER" >> $GITHUB_ENV
 
       - name: Minify SVG
         run: |
@@ -51,37 +75,33 @@ jobs:
               f.write(content)
           "
 
-      - name: Check changes and prepare counter
-        id: prep
+      - name: Check if count changed
         run: |
-          if git diff --quiet src/b_1.svg; then
-            echo "SVG unchanged, skipping commit."
+          if [ "${{ env.count_before }}" = "${{ env.count_after }}" ]; then
             echo "should_commit=false" >> $GITHUB_ENV
+            echo "count unchanged (${{ env.count_after }}), skipping commit"
           else
             COUNTER_FILE=.github/counter.txt
             mkdir -p .github
-            if [ ! -f $COUNTER_FILE ]; then
-              echo "0" > $COUNTER_FILE
-            fi
+            if [ ! -f $COUNTER_FILE ]; then echo "0" > $COUNTER_FILE; fi
             COUNTER=$(cat $COUNTER_FILE)
             NEXT=$(( (COUNTER % 9999) + 1 ))
-            FORMATTED=$(printf "%04d" $NEXT)
-            echo $NEXT > $COUNTER_FILE
-            echo "counter=$FORMATTED" >> $GITHUB_ENV
+            printf "%04d\n" $NEXT > $COUNTER_FILE
+            echo "counter=$(printf '%04d' $NEXT)" >> $GITHUB_ENV
             echo "should_commit=true" >> $GITHUB_ENV
           fi
 
-      - name: Commit and Push changes
+      - name: Commit and push
         if: env.should_commit == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/b_1.svg .github/counter.txt
-          git commit -m "update visitor counter [skip ci] [${{ env.counter }}]"
+          git commit -m "update visitor counter [skip ci] [${{ env.counter }}] ${{ env.count_after }}"
           git fetch origin me
           git rebase origin/me
           git push origin me
 
       - name: No changes
         if: env.should_commit != 'true'
-        run: echo "Nothing to commit."
+        run: echo "count unchanged, nothing to commit."

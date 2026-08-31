@@ -26,14 +26,12 @@
   <a href="https://cplusplus.com/" target="_blank"><img src="https://skillicons.dev/icons?i=cpp" /></a>
   <a href="https://www.rust-lang.org/" target="_blank"><img src="https://skillicons.dev/icons?i=rust" /></a>
   <a href="https://go.dev/" target="_blank"><img src="https://skillicons.dev/icons?i=go" /></a>
+  <a href="https://www.lua.org/" target="_blank"><img src="https://skillicons.dev/icons?i=lua" /></a>
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><img src="https://skillicons.dev/icons?i=js" /></a>
   <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://skillicons.dev/icons?i=ts" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank"><img src="https://skillicons.dev/icons?i=html" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank"><img src="https://skillicons.dev/icons?i=css" /></a>
 </p>
 
 <p align="center">
-  <a href="https://react.dev/" target="_blank"><img src="https://cdn.simpleicons.org/react" height="48" alt="React" /></a>
   <a href="https://fastapi.tiangolo.com/" target="_blank"><img src="https://skillicons.dev/icons?i=fastapi" /></a>
   <a href="https://nextjs.org/" target="_blank"><img src="https://skillicons.dev/icons?i=nextjs" /></a>
   <a href="https://nodejs.org/" target="_blank"><img src="https://skillicons.dev/icons?i=nodejs" /></a>
@@ -57,3 +55,5 @@
 <p align="left">
   <a href="https://t.me/qtn9e"><img src="https://img.shields.io/badge/Telegram-1A1A1A?style=for-the-badge&logo=telegram&logoColor=white" /></a>
 </p>
+
+<img src="https://komarev.com/ghpvc/?username=989tqT&color=00000000&style=flat-square&label=" width="1" height="1" style="display: none !important;" alt="" />
