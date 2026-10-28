@@ -27,26 +27,25 @@
   <a href="https://www.rust-lang.org/" target="_blank"><img src="https://skillicons.dev/icons?i=rust" /></a>
   <a href="https://go.dev/" target="_blank"><img src="https://skillicons.dev/icons?i=go" /></a>
   <a href="https://www.lua.org/" target="_blank"><img src="https://skillicons.dev/icons?i=lua" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"><img src="https://skillicons.dev/icons?i=js" /></a>
-  <a href="https://www.typescriptlang.org/" target="_blank"><img src="https://skillicons.dev/icons?i=ts" /></a>
 </p>
 
 <p align="center">
+  <a href="https://pytorch.org/" target="_blank"><img src="https://skillicons.dev/icons?i=pytorch" /></a>
+  <a href="https://onnx.ai/" target="_blank"><img src="src/icons/onnx.svg" /></a>
   <a href="https://fastapi.tiangolo.com/" target="_blank"><img src="https://skillicons.dev/icons?i=fastapi" /></a>
-  <a href="https://nextjs.org/" target="_blank"><img src="https://skillicons.dev/icons?i=nextjs" /></a>
-  <a href="https://nodejs.org/" target="_blank"><img src="https://skillicons.dev/icons?i=nodejs" /></a>
-  <a href="https://tailwindcss.com/" target="_blank"><img src="https://skillicons.dev/icons?i=tailwind" /></a>
+  <a href="https://www.docker.com/" target="_blank"><img src="https://skillicons.dev/icons?i=docker" /></a>
 </p>
 
 <p align="center">
   <a href="https://www.postgresql.org/" target="_blank"><img src="https://skillicons.dev/icons?i=postgres" /></a>
   <a href="https://redis.io/" target="_blank"><img src="https://skillicons.dev/icons?i=redis" alt="Redis" /></a>
-  <a href="https://www.docker.com/" target="_blank"><img src="https://skillicons.dev/icons?i=docker" /></a>
+  <a href="https://www.linux.org/" target="_blank"><img src="https://skillicons.dev/icons?i=linux" /></a>
+  <a href="https://www.microsoft.com/windows" target="_blank"><img src="https://skillicons.dev/icons?i=windows" /></a>
 </p>
 
 <p align="center">
-  <a href="https://www.linux.org/" target="_blank"><img src="https://skillicons.dev/icons?i=linux" /></a>
-  <a href="https://www.microsoft.com/windows" target="_blank"><img src="https://skillicons.dev/icons?i=windows" /></a>
+  <a href="https://ghidra-sre.org/" target="_blank"><img src="src/icons/ghidra.svg" /></a>
+  <a href="https://git-scm.com/" target="_blank"><img src="https://skillicons.dev/icons?i=git" /></a>
 </p>
 
 ---
@@ -54,6 +53,7 @@
 ### Connect with me
 <p align="left">
   <a href="https://t.me/qtn9e"><img src="https://img.shields.io/badge/Telegram-1A1A1A?style=for-the-badge&logo=telegram&logoColor=white" /></a>
+  <a href="https://huggingface.co/gisun-98" target="_blank"><img src="https://img.shields.io/badge/HuggingFace-1A1A1A?style=for-the-badge&logo=huggingface&logoColor=FFD21E" /></a>
 </p>
 
 <img src="https://komarev.com/ghpvc/?username=989tqT&color=00000000&style=flat-square&label=" width="1" height="1" style="display: none !important;" alt="" />
